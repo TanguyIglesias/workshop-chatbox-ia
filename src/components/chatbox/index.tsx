@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import InputBar from "./InputBar";
+import { Configuration, OpenAIApi } from "openai";
 
 interface typeMessageDisplay {
   id: number;
@@ -12,6 +13,28 @@ const ChatBoxContainer = () => {
   const [botMessage, setBotMessage] = useState<string>("Réponse du bot");
   const [createBox, setCreateBox] = useState<boolean>(false);
   const [textDisplay, setTextDisplay] = useState<typeMessageDisplay[]>([]);
+  // const [respIA, setRespIA] = useState<any>()
+
+  const responseAI = async () => {
+    const configuration = new Configuration({
+      apiKey: process.env.REACT_APP_URL,
+    });
+
+    const openai = new OpenAIApi(configuration);
+
+    const response = await openai.createCompletion({
+      model: "text-davinci-002",
+      prompt: userMessage,
+      temperature: 0.5,
+      max_tokens: 60,
+      top_p: 1.0,
+      frequency_penalty: 0.5,
+      presence_penalty: 0.0,
+      stop: [userMessage],
+    });
+
+    console.log(response);
+  };
 
   useEffect(() => {
     if (createBox) {
@@ -21,6 +44,7 @@ const ChatBoxContainer = () => {
         message: userMessage,
       };
       setTextDisplay([...textDisplay, newMessage]);
+      responseAI();
       setUserMessage("");
       setCreateBox(false);
     }
