@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import InputBar from "./InputBar";
 
-type messageDisplay = {
+type typeMessageDisplay = {
   id: number;
   user: string;
   message: string;
@@ -10,7 +10,7 @@ type messageDisplay = {
 const ChatBoxContainer = () => {
   const [userMessage, setUserMessage] = useState<string>("");
   const [createBox, setCreateBox] = useState<boolean>(false);
-  const textDisplay: messageDisplay[] = [];
+  const [textDisplay, setTextDisplay] = useState<typeMessageDisplay[]>([]);
 
   useEffect(() => {
     if (createBox) {
@@ -19,10 +19,9 @@ const ChatBoxContainer = () => {
         user: "user",
         message: userMessage,
       };
-      textDisplay.push(newMessage);
+      setTextDisplay([...textDisplay, newMessage]);
       setUserMessage("");
       setCreateBox(false);
-      console.log(textDisplay);
     }
   }, [createBox]);
 
