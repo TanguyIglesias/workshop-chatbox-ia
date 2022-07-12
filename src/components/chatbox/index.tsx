@@ -14,49 +14,45 @@ const ChatBoxContainer = () => {
   const [createBox, setCreateBox] = useState<boolean>(false);
   const [textDisplay, setTextDisplay] = useState<typeMessageDisplay[]>([]);
 
+  const responseAI = async () => {
+    const configuration = new Configuration({
+      apiKey: process.env.REACT_APP_URL,
+    });
+
+    const openai = new OpenAIApi(configuration);
+
+    const response = await openai.createCompletion({
+      model: "text-ada-001",
+      prompt: userMessage,
+      temperature: 0.5,
+      max_tokens: 60,
+      top_p: 1.0,
+      frequency_penalty: 0.5,
+      presence_penalty: 0.0,
+      stop: ["stop"],
+    });
+    setBotMessage(response?.data?.choices?.slice(0, 1)[0].text);
+  };
+
   useEffect(() => {
-    if (createBox && userMessage) {
-      const responseAI = async () => {
-        const configuration = new Configuration({
-          apiKey: process.env.REACT_APP_URL,
-        });
-
-        const openai = new OpenAIApi(configuration);
-
-        const response = await openai.createCompletion({
-          model: "text-ada-001",
-          prompt: userMessage,
-          temperature: 0.5,
-          max_tokens: 60,
-          top_p: 1.0,
-          frequency_penalty: 0.5,
-          presence_penalty: 0.0,
-          stop: ["stop"],
-        });
-        setBotMessage(response?.data?.choices?.slice(0, 1)[0].text);
-      };
+    if (createBox) {
       responseAI();
-
       const newMessage = {
         id: textDisplay.length + 1,
         user: "user",
         message: userMessage,
       };
-
+      const newResponse = {
+        id: textDisplay.length + 1,
+        user: "bot",
+        message: botMessage,
+      };
       setTextDisplay([...textDisplay, newMessage]);
       setUserMessage("");
-
-      if (botMessage) {
-        const newResponse = {
-          id: textDisplay.length + 1,
-          user: "bot",
-          message: botMessage,
-        };
-        setTextDisplay([...textDisplay, newResponse]);
-        setCreateBox(false);
-      }
+      botMessage && setTextDisplay([...textDisplay, newResponse]);
+      setCreateBox(false);
     }
-  }, [botMessage, createBox, textDisplay, userMessage]);
+  }, [botMessage, createBox, textDisplay]);
 
   return (
     <main className="border h-full p-2 rounded-lg shadow-lg flex flex-col justify-end">
