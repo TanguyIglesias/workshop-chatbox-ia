@@ -17,7 +17,7 @@ const InputBar = ({
 }: inputBarProps) => {
   const handleMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setCreateBox(!createBox);
+    setCreateBox(true);
   };
   return (
     <Box component="form" noValidate onSubmit={handleMessage}>
