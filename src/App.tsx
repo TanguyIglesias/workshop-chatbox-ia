@@ -1,8 +1,10 @@
+import ChatBoxContainer from "./components/chatbox";
+
 const App = () => {
   return (
-    <div>
-      <h1 className="text-red-500">Coucou</h1>
-    </div>
+    <main className="h-screen p-2">
+      <ChatBoxContainer />
+    </main>
   );
 };
 
