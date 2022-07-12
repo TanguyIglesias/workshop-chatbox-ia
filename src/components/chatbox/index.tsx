@@ -31,7 +31,7 @@ const ChatBoxContainer = () => {
           top_p: 1.0,
           frequency_penalty: 0.5,
           presence_penalty: 0.0,
-          stop: ["stop"],
+          stop: [userMessage],
         });
         setBotMessage(response?.data?.choices?.slice(0, 1)[0].text);
       };
@@ -45,19 +45,20 @@ const ChatBoxContainer = () => {
 
       setTextDisplay([...textDisplay, newMessage]);
       setUserMessage("");
-
-      if (botMessage) {
-        const newResponse = {
-          id: textDisplay.length + 1,
-          user: "bot",
-          message: botMessage,
-        };
-        setTextDisplay([...textDisplay, newResponse]);
-        setCreateBox(false);
-      }
     }
   }, [botMessage, createBox, textDisplay, userMessage]);
 
+  useEffect(() => {
+    if (botMessage) {
+      const newResponse = {
+        id: textDisplay.length + 1,
+        user: "bot",
+        message: botMessage,
+      };
+      setTextDisplay([...textDisplay, newResponse]);
+      setCreateBox(false);
+    }
+  },[botMessage])
   return (
     <main className="border h-full p-2 rounded-lg shadow-lg flex flex-col justify-end">
       {textDisplay &&
