@@ -1,4 +1,4 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import { Dispatch, SetStateAction } from "react";
 
@@ -12,33 +12,38 @@ interface inputBarProps {
 const InputBar = ({
   userMessage,
   setUserMessage,
-  createBox,
   setCreateBox,
 }: inputBarProps) => {
-  const handleMessage = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleMessage = () => {
     setCreateBox(true);
   };
   return (
-    <Box component="form" noValidate onSubmit={handleMessage}>
-      <div className="flex">
-        <div className="grow mr-2">
-          <TextField
-            id="filled-textarea"
-            label="Ask LuluBot"
-            placeholder="Write your message"
-            multiline
-            variant="filled"
-            fullWidth
-            onChange={(e) => setUserMessage(e.target.value)}
-            value={userMessage}
-          />
-        </div>
-        <Button type="submit" variant="contained" endIcon={<SendIcon />}>
-          Send
-        </Button>
+    <div className="flex m-4">
+      <div className="grow mr-2">
+        <TextField
+          id="filled-textarea"
+          label="Ask LuluBot"
+          placeholder="Write your message"
+          multiline
+          variant="filled"
+          fullWidth
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              setCreateBox(true);
+            }
+          }}
+          onChange={(e) => setUserMessage(e.target.value)}
+          value={userMessage}
+        />
       </div>
-    </Box>
+      <Button
+        onClick={handleMessage}
+        variant="contained"
+        endIcon={<SendIcon />}
+      >
+        Send
+      </Button>
+    </div>
   );
 };
 
