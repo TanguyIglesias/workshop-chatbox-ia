@@ -18,7 +18,7 @@ const InputBar = ({
     setCreateBox(true);
   };
   return (
-    <div className="flex m-4">
+    <div className="flex items-end m-4">
       <div className="grow mr-2">
         <TextField
           id="filled-textarea"
@@ -36,13 +36,15 @@ const InputBar = ({
           value={userMessage}
         />
       </div>
-      <Button
-        onClick={handleMessage}
-        variant="contained"
-        endIcon={<SendIcon />}
-      >
-        Send
-      </Button>
+      <div className="h-12 flex items-end">
+        <Button
+          onClick={handleMessage}
+          variant="contained"
+          endIcon={<SendIcon />}
+        >
+          Send
+        </Button>
+      </div>
     </div>
   );
 };
