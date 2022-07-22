@@ -14,48 +14,55 @@ const ChatBoxContainer = () => {
   const [createBox, setCreateBox] = useState<boolean>(false);
   const [textDisplay, setTextDisplay] = useState<typeMessageDisplay[]>([]);
 
-  const responseAI = async () => {
-    const configuration = new Configuration({
-      apiKey: process.env.REACT_APP_URL,
-    });
-
-    const openai = new OpenAIApi(configuration);
-
-    const response = await openai.createCompletion({
-      model: "text-ada-001",
-      prompt: userMessage,
-      temperature: 0.5,
-      max_tokens: 60,
-      top_p: 1.0,
-      frequency_penalty: 0.5,
-      presence_penalty: 0.0,
-      stop: ["stop"],
-    });
-    setBotMessage(response?.data?.choices?.slice(0, 1)[0].text);
-  };
-
   useEffect(() => {
-    if (createBox) {
+    if (createBox && userMessage) {
+      const responseAI = async () => {
+        const configuration = new Configuration({
+          apiKey: process.env.REACT_APP_URL,
+        });
+
+        const openai = new OpenAIApi(configuration);
+
+        const response = await openai.createCompletion({
+          model: "text-davinci-002",
+          prompt: userMessage,
+          temperature: 0.5,
+          max_tokens: 60,
+          top_p: 1.0,
+          frequency_penalty: 0.5,
+          presence_penalty: 0.0,
+          stop: [userMessage],
+        });
+        setBotMessage(response?.data?.choices?.slice(0, 1)[0].text);
+      };
       responseAI();
+
       const newMessage = {
         id: textDisplay.length + 1,
         user: "user",
         message: userMessage,
       };
+
+      setTextDisplay([...textDisplay, newMessage]);
+      setUserMessage("");
+    }
+  }, [botMessage, createBox, textDisplay, userMessage]);
+
+  useEffect(() => {
+    if (botMessage) {
       const newResponse = {
         id: textDisplay.length + 1,
         user: "bot",
         message: botMessage,
       };
-      setTextDisplay([...textDisplay, newMessage]);
-      setUserMessage("");
-      botMessage && setTextDisplay([...textDisplay, newResponse]);
+      setTextDisplay([...textDisplay, newResponse]);
       setCreateBox(false);
     }
-  }, [botMessage, createBox, textDisplay]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [botMessage]);
 
   return (
-    <main className="border h-full p-2 rounded-lg shadow-lg flex flex-col justify-end">
+    <main className="border h-full p-4 rounded-lg shadow-lg flex flex-col justify-end w-1/2 bg-white">
       {textDisplay &&
         textDisplay.map((message) =>
           message.user === "user" ? (
