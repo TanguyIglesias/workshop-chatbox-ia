@@ -24,7 +24,7 @@ const ChatBoxContainer = () => {
         const openai = new OpenAIApi(configuration);
 
         const response = await openai.createCompletion({
-          model: "text-ada-001",
+          model: "text-davinci-002",
           prompt: userMessage,
           temperature: 0.5,
           max_tokens: 60,
@@ -32,11 +32,11 @@ const ChatBoxContainer = () => {
           frequency_penalty: 0.5,
           presence_penalty: 0.0,
           stop: [userMessage],
-        });
+        });     
         setBotMessage(response?.data?.choices?.slice(0, 1)[0].text);
       };
       responseAI();
-
+      
       const newMessage = {
         id: textDisplay.length + 1,
         user: "user",
