@@ -32,11 +32,11 @@ const ChatBoxContainer = () => {
           frequency_penalty: 0.5,
           presence_penalty: 0.0,
           stop: [userMessage],
-        });
+        });     
         setBotMessage(response?.data?.choices?.slice(0, 1)[0].text);
       };
       responseAI();
-
+      
       const newMessage = {
         id: textDisplay.length + 1,
         user: "user",
