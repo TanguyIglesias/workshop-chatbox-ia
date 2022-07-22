@@ -62,13 +62,13 @@ const ChatBoxContainer = () => {
   }, [botMessage]);
 
   return (
-    <main className="border h-full rounded-lg shadow-lg flex flex-col justify-end w-1/2 bg-white">
+    <main className="border h-full rounded-lg shadow-lg flex flex-col justify-end w-full md:w-2/3 bg-white">
       <div className="w-full overflow-x-hidden p-4">
         {textDisplay &&
           textDisplay.map((message) =>
             message.user === "user" ? (
-              <div key={message.id} className="ml-auto my-2 flex justify-end">
-                <p className="break-words bg-blue-500 p-2 m-2 rounded-lg shadow-lg max-w-md">
+              <div key={message.id} className="my-2 flex justify-end">
+                <p className="break-words bg-blue-500 p-2 m-2 rounded-lg shadow-lg max-w-xs">
                   {message.message}
                 </p>
                 <div className="rounded-full overflow-hidden w-16 h-16 bg-blue-500 px-1 pb-0 pt-2 shadow-sm">
@@ -80,7 +80,7 @@ const ChatBoxContainer = () => {
                 </div>
               </div>
             ) : (
-              <div key={message.id} className="mr-auto my-2 flex">
+              <div key={message.id} className="my-2 flex">
                 <div className="rounded-full overflow-hidden w-16 h-16 bg-amber-500 px-1 pb-0 pt-2 shadow-sm">
                   <img
                     src="/images/robotLuluBot.png"
@@ -88,7 +88,7 @@ const ChatBoxContainer = () => {
                     className="w-full h-full"
                   />
                 </div>
-                <p className="break-words bg-gray-400 p-2 m-2 rounded-lg shadow-lg max-w-md">
+                <p className="break-words bg-gray-400 p-2 m-2 rounded-lg shadow-lg max-w-xs">
                   {message.message}
                 </p>
               </div>

@@ -35,7 +35,7 @@ const dataRobot = [
 
 const LeftBox = () => {
   return (
-    <ul className="w-1/5 bg-white border h-full p-4 rounded-lg shadow-lg">
+    <ul className="hidden md:block md:w-1/3 bg-white border h-full p-4 rounded-lg shadow-lg">
       {dataRobot.map((robot) => (
         <li
           key={robot.id}

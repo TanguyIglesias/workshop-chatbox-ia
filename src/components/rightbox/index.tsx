@@ -1,6 +1,6 @@
 const RightBox = () => {
   return (
-    <div className="w-2/5 h-full">
+    <div className="w-0 h-full hidden lg:block lg:w-2/5">
       <video
         src="./images/robot.mp4"
         autoPlay
